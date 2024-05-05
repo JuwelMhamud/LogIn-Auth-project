@@ -27,7 +27,11 @@ const Login = () => {
     console.log(email, password);
     setLoginError("");
     loginUser(email, password)
-      .then((result) => setLogInPerson(result.user))
+      .then((result) => {
+        setLogInPerson(result.user)
+        e.target.reset()
+        navigate('/')
+      })
       .catch(() => setLoginError("Email is not matched!"));
   };
 
@@ -35,7 +39,7 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     googleLogin()
-      .then((result) => setLogInPerson(result.user))
+      .then((result) => {setLogInPerson(result.user)})
       .catch(() => setLoginError("Google login Unsuccessful"));
   };
 

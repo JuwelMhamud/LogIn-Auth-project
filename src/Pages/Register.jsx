@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { authContext } from "../Components/AuthProvider/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [error, setError] = useState();
   const { registerUser , setLogInPerson} = useContext(authContext);
-
+  const navigate = useNavigate()
   const handleFormInput = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -32,7 +33,11 @@ const Register = () => {
 
     // if registration succcesful call SetLogINPerson otherwise call Error
     registerUser(email, password)
-    .then(result=> setLogInPerson(result.user))
+    .then(result=>{
+      setLogInPerson(result.user)
+      e.target.reset()
+      navigate('/')
+    })
     .catch(err=> setError(err.message))
   };
   return (

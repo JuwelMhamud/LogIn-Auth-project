@@ -17,32 +17,40 @@ const AuthProvider = ({ children }) => {
 
   const [LogInPerson, setLogInPerson] = useState(null);
 
+  // show loading when About page is reloaded
+  const [loading, setLoading] = useState(true)
+
   // These thing bring from Firebase for the Fb & google logIn
   const googlePovider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
 
   // step 1 : Registration
   const registerUser = (email, password) => {
+    setLoading(true)
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
  // step 2 : Login User
   const loginUser = (email, password) => {
+    setLoading(true)
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // step 3 : Google Login
   const googleLogin = () => {
+    setLoading(true)
     return signInWithPopup(auth, googlePovider);
   };
   
   // step 4 : Facebook Login
   const facebookLogin = () => {
+    setLoading(true)
     return signInWithPopup(auth, facebookProvider);
   };
 
   // step 5 : LogOut User
   const LogOut = () => {
+    setLoading(false)
     return signOut(auth);
   };
 
@@ -51,6 +59,7 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setLogInPerson(currentUser);
+        setLoading(false)
       } else {
         setLogInPerson(null);
       }
@@ -69,6 +78,7 @@ const AuthProvider = ({ children }) => {
     googleLogin,
     facebookLogin,
     LogOut,
+    loading
   };
   return (
     <div>

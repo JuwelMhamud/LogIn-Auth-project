@@ -9,13 +9,19 @@ const ProtectiveRoute = ({ children }) => {
   console.log(location);
 
   // IF user is loggedIn than show Children page otherwise don't.
-  const { LogInPerson } = useContext(authContext);
-
+  const { LogInPerson , loading} = useContext(authContext);
+  if(loading){
+    return <span className="loading loading-infinity loading-lg"></span>
+  }
+  
   if (LogInPerson) {
     return children;
   }
+  
   // step-2 : pass the location as a state to  login page
   return <Navigate to="/login" state={location} />;
+
+  
 };
 
 export default ProtectiveRoute;
